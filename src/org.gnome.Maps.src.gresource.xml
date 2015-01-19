@@ -26,6 +26,12 @@
     <file>mapWalker.js</file>
     <file>notification.js</file>
     <file>notificationManager.js</file>
+    <file>osmChangeset.js</file>
+    <file>osmConnection.js</file>
+    <file>osmNode.js</file>
+    <file>osmObject.js</file>
+    <file>osmRelation.js</file>
+    <file>osmWay.js</file>
     <file>overpass.js</file>
     <file>place.js</file>
     <file>placeBubble.js</file>
