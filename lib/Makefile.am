@@ -4,8 +4,8 @@ BUILT_SOURCES =							\
 	maps-enum-types.c						\
 	maps-enum-types.h
 
-libgnome_maps_headers_private = maps-contact-store.h maps-contact.h maps.h
-libgnome_maps_sources = maps-contact-store.c maps-contact.c
+libgnome_maps_headers_private = maps-contact-store.h maps-contact.h maps.h maps-osm.h
+libgnome_maps_sources = maps-contact-store.c maps-contact.c maps-osm.c
 libgnome_maps_la_SOURCES =						\
 	$(libgnome_maps_sources)					\
 	$(libgnome_maps_headers_private)				\
