@@ -39,24 +39,16 @@ const OSMConnection = new Lang.Class({
 	let request = new Soup.Message({ method: 'GET',
 					 uri: uri });
 
-	print('calling URL: ' + url);
-	
 	this._session.queue_message(request, (function(obj, message) {
-	    print('got response status: ' + message.status_code);
-
 	    if (message.status_code !== Soup.KnownStatusCode.OK) {
                 callback(false, message.status_code, null);
                 return;
             }
-
-	    print('got response: ' + message.response_body.data);
 	    
             callback(true,
                      message.status_code,
 		     message.response_body.data);
         }));
-
-	print('after');
     },
     
     _getQueryUrl: function(type, id) {
