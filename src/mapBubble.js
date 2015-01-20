@@ -28,6 +28,7 @@ const Lang = imports.lang;
 const Mainloop = imports.mainloop;
 
 const Application = imports.application;
+const OSMConnection = imports.osmConnection;
 const Place = imports.place;
 const PlaceStore = imports.placeStore;
 const SendToDialog = imports.sendToDialog;
@@ -38,7 +39,8 @@ const Button = {
     ROUTE: 2,
     SEND_TO: 4,
     FAVORITE: 8,
-    CHECK_IN: 16
+    CHECK_IN: 16,
+    EDIT: 32
 };
 
 const MapBubble = new Lang.Class({
@@ -76,7 +78,8 @@ const MapBubble = new Lang.Class({
                                                    'bubble-route-button',
                                                    'bubble-send-to-button',
                                                    'bubble-favorite-button',
-                                                   'bubble-check-in-button']);
+                                                   'bubble-check-in-button',
+						   'bubble-edit-button']);
         this._image = ui.bubbleImage;
         this._content = ui.bubbleContentArea;
 
@@ -91,6 +94,8 @@ const MapBubble = new Lang.Class({
                 this._initFavoriteButton(ui.bubbleFavoriteButton);
             if (buttonFlags & Button.CHECK_IN)
                 this._initCheckInButton(ui.bubbleCheckInButton, checkInMatchPlace);
+	    if (buttonFlags & Button.EDIT)
+		this._initEditButton(ui.bubbleEditButton);
         }
 
         this.add(ui.bubbleMainGrid);
@@ -172,5 +177,39 @@ const MapBubble = new Lang.Class({
                                                          this.place,
                                                          matchPlace);
         }).bind(this));
+    },
+
+    _initEditButton: function(button) {
+	button.connect('clicked', (function() {
+	    // TODO: this should be handled in an "edit manager", something like for the
+	    // check in service above
+	    print ('about to edit place: type: ' + this._place.osm_type + ' id: ' +
+		   this._place.osm_id);
+	    let conn = new OSMConnection.OSMConnection();
+	    let osmType;
+
+	    switch (this._place.osm_type) {
+	    case 1:
+		osmType = 'node';
+		break;
+	    case 2:
+		osmType = 'way';
+		break;
+	    case 3:
+		osmType = 'relation';
+		break;
+	    default:
+		debug ('Unknown OSM type: ' + this._place.osm_type);
+		break;
+	    }
+	    
+	    conn.getOSMObject(osmType, this._place.osm_id,
+			      (function(success, status, data) {
+				  print('success: ' + success);
+				  print('status: ' + status);
+				  print('data: ' + data);
+			      }));
+	}).bind(this));
+
     }
 });

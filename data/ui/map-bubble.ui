@@ -108,6 +108,17 @@
                 <property name="tooltip-text" translatable="yes">Check in here</property>
               </object>
             </child>
+	    <child>
+	      <object class="GtkButton" id="bubble-edit-button">
+		<property name="name">bubble-edit-button"</property>
+		<property name="label" translatable="yes">Edit</property>
+		<!-- TODO: this button should be invisible by default
+		     when we handle OSM accounts -->
+		<property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">False</property>
+	      </object>
+	    </child>
           </object>
           <packing>
             <property name="left_attach">0</property>
