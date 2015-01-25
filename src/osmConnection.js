@@ -24,7 +24,7 @@ const Lang = imports.lang;
 const Maps = imports.gi.GnomeMaps;
 const Soup = imports.gi.Soup;
 
-const BASE_URL = 'http://api.openstreetmap.org/api';
+const BASE_URL = 'https://api.openstreetmap.org/api';
 const API_VERSION = '0.6';
 
 const OSMConnection = new Lang.Class({
