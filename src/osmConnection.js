@@ -21,6 +21,7 @@
  */
 
 const Lang = imports.lang;
+const Maps = imports.gi.GnomeMaps;
 const Soup = imports.gi.Soup;
 
 const BASE_URL = 'http://api.openstreetmap.org/api';
@@ -31,6 +32,7 @@ const OSMConnection = new Lang.Class({
 
     _init: function(params) {
 	this._session = new Soup.Session();
+	Maps.osm_init();
     },
 
     getOSMObject: function(type, id, callback) {
@@ -44,10 +46,24 @@ const OSMConnection = new Lang.Class({
                 callback(false, message.status_code, null);
                 return;
             }
+
+	    let json;
+
+	    print ('Parsing object of type: ' + type);
+	    
+	    switch (type) {
+	    case 'node':
+		json = Maps.osm_parse_node(message.response_body.data,
+					   message.response_body.length);
+		break;
+	    default:
+		// TODO: implement parse methods for the other types as well...
+		json = message.response_body.data;
+	    }
 	    
             callback(true,
                      message.status_code,
-		     message.response_body.data);
+		     json);
         }));
     },
     
