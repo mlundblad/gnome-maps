@@ -20,6 +20,8 @@
  * Author: Marcus Lundblad <ml@update.uu.se>
  */
 
+const OSMNode = imports.osmNode;
+
 const Lang = imports.lang;
 const Maps = imports.gi.GnomeMaps;
 const Soup = imports.gi.Soup;
@@ -47,28 +49,49 @@ const OSMConnection = new Lang.Class({
                 return;
             }
 
-	    let json;
+	    let json = this._parseXML(type, message.response_body);
+	    let object = null;
 
-	    print ('Parsing object of type: ' + type);
+	    if (json != null)
+		object = this._createObject(type, json);
 	    
-	    switch (type) {
-	    case 'node':
-		json = Maps.osm_parse_node(message.response_body.data,
-					   message.response_body.length);
-		break;
-	    default:
-		// TODO: implement parse methods for the other types as well...
-		json = message.response_body.data;
-	    }
-	    
-            callback(true,
-                     message.status_code,
-		     json);
-        }));
+	    if (object == null)
+		callback(false, message.status_code, null);
+	    else
+		callback(true,
+			 message.status_code,
+			 object);
+        }).bind(this));
     },
     
     _getQueryUrl: function(type, id) {
 	return BASE_URL + '/' + API_VERSION + '/' + type + '/' + id;
+    },
+
+    _parseXML: function(type, body) {
+	let jsonString;
+	
+	switch (type) {
+	case 'node':
+	    jsonString = Maps.osm_parse_node(body.data, body.length);
+	    break;
+	default:
+	}
+
+	return JSON.parse(jsonString);
+    },
+
+    _createObject: function(type, json) {
+	switch (type) {
+	case 'node':
+	    return new OSMNode.OSMNode(json);
+	case 'way':
+	    return new OSMWay.OSMWay(json);
+	case 'relation':
+	    return new OSMRelation.OSMRelation(json);
+	default:
+	    return null;
+	}
     }
 })
 
