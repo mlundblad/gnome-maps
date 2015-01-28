@@ -27,28 +27,6 @@ const OSMRelation = new Lang.Class({
     Name: 'OSMRelation',
     Extends: OSMObject.OSMObject,
 
-    const Member = new Lang.Class({
-	Name: 'Element',
-
-	_init: function(params) {
-	    this._type = params.type;
-	    this._role = params.role;
-	    this._ref = params.ref;
-	},
-
-	get type() {
-	    return this._type;
-	},
-
-	get role() {
-	    return this._role;
-	},
-
-	get ref() {
-	    return this._ref;
-	}
-    }),
-
     _init: function(params) {
 	this._members = params.members;
 	
