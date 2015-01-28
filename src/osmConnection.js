@@ -21,6 +21,8 @@
  */
 
 const OSMNode = imports.osmNode;
+const OSMRelation = imports.osmRelation;
+const OSMWay = imports.osmWay;
 
 const Lang = imports.lang;
 const Maps = imports.gi.GnomeMaps;
@@ -75,9 +77,13 @@ const OSMConnection = new Lang.Class({
 	case 'node':
 	    jsonString = Maps.osm_parse_node(body.data, body.length);
 	    break;
+	case 'way':
+	    jsonString = Maps.osm_parse_way(body.data, body.length);
 	default:
 	}
 
+	print ('parsed XML to JSON: ' + jsonString);
+	
 	return JSON.parse(jsonString);
     },
 

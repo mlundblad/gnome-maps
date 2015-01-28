@@ -193,10 +193,10 @@ const MapBubble = new Lang.Class({
 		osmType = 'node';
 		break;
 	    case 2:
-		osmType = 'way';
+		osmType = 'relation';
 		break;
 	    case 3:
-		osmType = 'relation';
+		osmType = 'way';
 		break;
 	    default:
 		debug ('Unknown OSM type: ' + this._place.osm_type);
