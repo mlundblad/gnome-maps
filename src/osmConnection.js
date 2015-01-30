@@ -51,6 +51,8 @@ const OSMConnection = new Lang.Class({
                 return;
             }
 
+            print ('data received: ' + message.response_body.data);
+
 	    let json = this._parseXML(type, message.response_body);
 	    let object = null;
 
