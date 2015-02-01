@@ -86,7 +86,10 @@ const OSMConnection = new Lang.Class({
 
 	print ('parsed XML to JSON: ' + jsonString);
 	
-	return JSON.parse(jsonString);
+        if (jsonString)
+	    return JSON.parse(jsonString);
+        else
+            return NULL;
     },
 
     _createObject: function(type, json) {
