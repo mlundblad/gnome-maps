@@ -25,6 +25,7 @@ const OSMRelation = imports.osmRelation;
 const OSMWay = imports.osmWay;
 
 const Lang = imports.lang;
+const GLib = imports.gi.GLib;
 const Maps = imports.gi.GnomeMaps;
 const Soup = imports.gi.Soup;
 
@@ -81,7 +82,12 @@ const OSMConnection = new Lang.Class({
 	    break;
 	case 'way':
 	    jsonString = Maps.osm_parse_way(body.data, body.length);
-	default:
+            break;
+        case 'relation':
+            jsonString = Maps.osm_parse_relation(body.data, body.lenght);
+	    break;
+        default:
+            GLib.error('unknown OSM type: ' + type);
 	}
 
 	print ('parsed XML to JSON: ' + jsonString);
