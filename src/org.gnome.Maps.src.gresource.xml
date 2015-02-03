@@ -28,6 +28,7 @@
     <file>notificationManager.js</file>
     <file>osmChangeset.js</file>
     <file>osmConnection.js</file>
+    <file>osmEdit.js</file>
     <file>osmNode.js</file>
     <file>osmObject.js</file>
     <file>osmRelation.js</file>
