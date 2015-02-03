@@ -36,6 +36,7 @@ const GeocodeService = imports.geocodeService;
 const MainWindow = imports.mainWindow;
 const Maps = imports.gi.GnomeMaps;
 const NotificationManager = imports.notificationManager;
+const OSMEdit = imports.osmEdit;
 const PlaceStore = imports.placeStore;
 const RouteService = imports.routeService;
 const Settings = imports.settings;
@@ -52,6 +53,7 @@ let geocodeService = null;
 let networkMonitor = null;
 let checkInManager = null;
 let contactStore = null;
+let osmEditManager = null;
 
 const Application = new Lang.Class({
     Name: 'Application',
@@ -203,6 +205,7 @@ const Application = new Lang.Class({
         checkInManager = new CheckIn.CheckInManager();
         contactStore = new Maps.ContactStore();
         contactStore.load();
+	osmEditManager = new OSMEdit.OSMEditManager();
     },
 
     _createWindow: function() {

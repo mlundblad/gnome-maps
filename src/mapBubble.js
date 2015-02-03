@@ -181,35 +181,10 @@ const MapBubble = new Lang.Class({
 
     _initEditButton: function(button) {
 	button.connect('clicked', (function() {
-	    // TODO: this should be handled in an "edit manager", something like for the
-	    // check in service above
 	    print ('about to edit place: type: ' + this._place.osm_type + ' id: ' +
 		   this._place.osm_id);
-	    let conn = new OSMConnection.OSMConnection();
-	    let osmType;
 
-	    switch (this._place.osm_type) {
-	    case 1:
-		osmType = 'node';
-		break;
-	    case 2:
-		osmType = 'relation';
-		break;
-	    case 3:
-		osmType = 'way';
-		break;
-	    default:
-		debug ('Unknown OSM type: ' + this._place.osm_type);
-		break;
-	    }
-	    
-	    conn.getOSMObject(osmType, this._place.osm_id,
-			      (function(success, status, data) {
-				  print('success: ' + success);
-				  print('status: ' + status);
-				  print('data: ' + data);
-			      }));
+	    Application.osmEditManager.initEditing(this.place);
 	}).bind(this));
-
     }
 });
