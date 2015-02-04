@@ -28,7 +28,6 @@ const Lang = imports.lang;
 const Mainloop = imports.mainloop;
 
 const Application = imports.application;
-const OSMConnection = imports.osmConnection;
 const Place = imports.place;
 const PlaceStore = imports.placeStore;
 const SendToDialog = imports.sendToDialog;
