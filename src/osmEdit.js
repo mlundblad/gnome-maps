@@ -23,6 +23,7 @@
 const GObject = imports.gi.GObject;
 const Lang = imports.lang;
 
+const OSMEditDialog = imports.osmEditDialog;
 const OSMConnection = imports.osmConnection;
 
 const OSMEditManager = new Lang.Class({
@@ -33,15 +34,25 @@ const OSMEditManager = new Lang.Class({
 	this._osmConnection = new OSMConnection.OSMConnection();
     },
 
-    initEditing: function(place) {
-	let osmType = this._getOSMTypeName(place);
+    showEditDialog: function(parentWindow, place) {
+	let dialog = new OSMEditDialog.OSMEditDialog( { transient_for: parentWindow,
+						        place: place });
+	let response = dialog.run();
 
+	dialog.destroy();
+    },
+
+    fetchObject: function(place, callback, cancellable) {
+	let osmType = this._getOSMTypeName(place);
+	
 	this._osmConnection.getOSMObject(osmType, place.osm_id,
-			  (function(success, status, data) {
-			      print('success: ' + success);
-			      print('status: ' + status);
-			      print('data: ' + data);
-			  }));
+					 (function(success, status, data) {
+					     print('success: ' + success);
+					     print('status: ' + status);
+					     print('data: ' + data);
+					     callback(success, status, data);
+					 }), cancellable);
+
     },
 
     _getOSMTypeName: function(place) {

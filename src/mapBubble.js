@@ -183,7 +183,8 @@ const MapBubble = new Lang.Class({
 	    print ('about to edit place: type: ' + this._place.osm_type + ' id: ' +
 		   this._place.osm_id);
 
-	    Application.osmEditManager.initEditing(this.place);
+	    Application.osmEditManager.showEditDialog(this.get_toplevel(),
+						      this.place);
 	}).bind(this));
     }
 });

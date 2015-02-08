@@ -40,12 +40,16 @@ const OSMConnection = new Lang.Class({
 	Maps.osm_init();
     },
 
-    getOSMObject: function(type, id, callback) {
+    getOSMObject: function(type, id, callback, cancellable) {
 	let url = this._getQueryUrl(type, id);
 	let uri = new Soup.URI(url);
 	let request = new Soup.Message({ method: 'GET',
 					 uri: uri });
 
+	cancellable.connect((function() {
+	    this._session.cancel_message(request, Soup.STATUS_CANCELLED);
+	}).bind(this));
+	
 	this._session.queue_message(request, (function(obj, message) {
 	    if (message.status_code !== Soup.KnownStatusCode.OK) {
                 callback(false, message.status_code, null);
