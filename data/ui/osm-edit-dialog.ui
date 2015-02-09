@@ -46,22 +46,31 @@
                 <property name="margin_top">15</property>
                 <property name="margin_bottom">15</property>
                 <child>
-                  <object class="GtkFrame" id="accountFrame">
+                  <object class="GtkLabel" id="nameLabel">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="hexpand">True</property>
                     <property name="vexpand">True</property>
-                    <property name="label_xalign">0</property>
-                    <property name="shadow_type">in</property>
-                    <child type="label_item">
-                      <placeholder/>
-                    </child>
-                  </object>
+		    <property name="label" translatable="true">Name</property>
+		  </object>
                   <packing>
                     <property name="left_attach">0</property>
                     <property name="top_attach">0</property>
                   </packing>
                 </child>
+		<child>
+                  <object class="GtkEntry" id="nameEntry">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="hexpand">True</property>
+                    <property name="vexpand">True</property>
+		  </object>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="top_attach">0</property>
+                  </packing>
+                </child>
+
               </object>
               <packing>
                 <property name="name">editor</property>

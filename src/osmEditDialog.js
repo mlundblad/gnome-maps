@@ -37,7 +37,8 @@ const OSMEditDialog = new Lang.Class({
     Template: 'resource:///org/gnome/Maps/ui/osm-edit-dialog.ui',
     InternalChildren: [ 'cancelButton',
 			'saveButton',
-			'stack'],
+			'stack',
+		        'nameEntry'],
     
     _init: function(params) {
 	this._place = params.place;
@@ -71,10 +72,24 @@ const OSMEditDialog = new Lang.Class({
     },
 
     _loadOSMData: function(data) {
+	this._osmObject = data;
+	this._initEditWidgets();
 	this._stack.set_visible_child_name('editor');
     },
 
     _showError: function(status) {
 
+    },
+
+    _initEditWidgets: function() {
+	// TODO: for now, just use a static name text entry
+	let name = this._osmObject.getTag('name');
+
+	if (name)
+	    this._nameEntry.text = this._osmObject.getTag('name');
+
+	this._nameEntry.connect('changed', (function() {
+	    this._osmObject.setTag('name', this._nameEntry.text);
+	}).bind(this));
     }
 });
