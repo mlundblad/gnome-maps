@@ -76,6 +76,72 @@
                 <property name="name">editor</property>
               </packing>
             </child>
+            <child>
+              <object class="GtkGrid" id="uploadGrid">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="margin_start">15</property>
+                <property name="margin_end">15</property>
+                <property name="margin_top">15</property>
+                <property name="margin_bottom">15</property>
+                <child>
+                  <object class="GtkLabel" id="commentLabel">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="hexpand">True</property>
+                    <property name="vexpand">True</property>
+		    <property name="label" translatable="true">Comment:</property>
+		  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">0</property>
+                  </packing>
+                </child>
+		<child>
+                  <object class="GtkEntry" id="commentEntry">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="hexpand">True</property>
+                    <property name="vexpand">True</property>
+		  </object>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="top_attach">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="sourceLabel">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="hexpand">True</property>
+                    <property name="vexpand">True</property>
+		    <property name="label" translatable="true">Source:</property>
+		  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">1</property>
+                  </packing>
+                </child>
+		<child>
+                  <object class="GtkEntry" id="sourceEntry">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="hexpand">True</property>
+                    <property name="vexpand">True</property>
+		  </object>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="top_attach">1</property>
+                  </packing>
+                </child>
+
+              </object>
+              <packing>
+                <property name="name">upload</property>
+              </packing>
+            </child>
+
+
 	  </object>
 	</child>
       </object>
@@ -99,7 +165,8 @@
         <child>
           <object class="GtkButton" id="saveButton">
             <property name="label" translatable="yes">_Save</property>
-            <property name="visible">False</property>
+            <property name="visible">True</property>
+	    <property name="sensitive">False</property>
             <property name="can_focus">True</property>
             <property name="use_underline">True</property>
             <style>

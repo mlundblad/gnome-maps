@@ -43,7 +43,7 @@ const OSMEditDialog = new Lang.Class({
     _init: function(params) {
 	this._place = params.place;
 	delete params.place;
-	
+
 	// This is a construct-only property and cannot be set by GtkBuilder
         params.use_header_bar = true;
 
@@ -58,11 +58,25 @@ const OSMEditDialog = new Lang.Class({
             this._cancellable.cancel();
         }).bind(this));
 
+	this._isEditing = false;
+	this._saveButton.connect('clicked', this._onSaveClicked.bind(this));
+	
 	Application.osmEditManager.fetchObject(this._place,
 					       this._fetchOSMObjectCB.bind(this),
 					       this._cancellable);
     },
 
+    _onSaveClicked: function() {
+	if (this._isEditing) {
+	    // switch to the upload view
+	    this._stack.set_visible_child_name('upload');
+	    this._saveButton.label = _("Upload");
+	    this._isEditing = false;
+	} else {
+	    // upload data to OSM
+	}
+    },
+    
     _fetchOSMObjectCB: function(success, status, data) {
 	if (success) {
 	    this._loadOSMData(data);
@@ -73,6 +87,7 @@ const OSMEditDialog = new Lang.Class({
 
     _loadOSMData: function(data) {
 	this._osmObject = data;
+	this._isEditing = true;
 	this._initEditWidgets();
 	this._stack.set_visible_child_name('editor');
     },
@@ -90,6 +105,7 @@ const OSMEditDialog = new Lang.Class({
 
 	this._nameEntry.connect('changed', (function() {
 	    this._osmObject.setTag('name', this._nameEntry.text);
+	    this._saveButton.sensitive = true;
 	}).bind(this));
     }
 });
