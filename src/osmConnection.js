@@ -30,6 +30,7 @@ const Maps = imports.gi.GnomeMaps;
 const Soup = imports.gi.Soup;
 
 const BASE_URL = 'https://api.openstreetmap.org/api';
+const TEST_BASE_URL = 'http://api06.dev.openstreetmap.org/';
 const API_VERSION = '0.6';
 
 const OSMConnection = new Lang.Class({
