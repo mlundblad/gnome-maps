@@ -22,7 +22,6 @@
 
 const Lang = imports.lang;
 const OSMObject = imports.osmObject;
-const OSMTag = imports.osmTag;
 
 const OSMChangeset = new Lang.Class({
     Name: 'OSMChangeset',
@@ -30,10 +29,8 @@ const OSMChangeset = new Lang.Class({
 
     _init: function(comment) {
 	// add default tags
-	this.setTag(new OSMTag.OSMTag({key: 'created_by',
-				       value: 'gnome-maps'})); // TODO: add real version number
-	this.setTag(new OSMTag.OSMTag({key: 'comment',
-				       value: comment}));
+	this.setTag('created_by', 'gnome-maps')); // TODO: add real version number
+	this.setTag('comment', comment));
 
 	// undefined changeset ID until the changeset has been opened
 	this._id = undefined;
