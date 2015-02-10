@@ -62,5 +62,8 @@ const OSMObject = new Lang.Class({
 
     deleteTag: function(key) {
 	delete this._tags[key];
-    }
+    },
+
+    //Abstract
+    toXML: function() { }
 });
