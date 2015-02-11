@@ -56,11 +56,4 @@ const OSMNode = new Lang.Class({
     }
 });
 
-OSMNode.download = function(conn, id, callback) {
-    conn.getOSMObject('node', id, callback);
-
-    // TODO: should parse the returned XML into an OSMNode object,
-    // call the callback with that
-}
-
 
