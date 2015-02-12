@@ -38,7 +38,9 @@ const OSMEditDialog = new Lang.Class({
     InternalChildren: [ 'cancelButton',
 			'saveButton',
 			'stack',
-		        'nameEntry'],
+		        'nameEntry',
+		        'commentEntry',
+		        'sourceEntry'],
     
     _init: function(params) {
 	this._place = params.place;
@@ -74,6 +76,10 @@ const OSMEditDialog = new Lang.Class({
 	    this._isEditing = false;
 	} else {
 	    // upload data to OSM
+	    Application.osmEditManager.uploadObject(this._place,
+						    this._commentEntry.text,
+						    this._sourceEntry.text,
+						    this._uploadOSMObjectCB);
 	}
     },
     
@@ -90,6 +96,10 @@ const OSMEditDialog = new Lang.Class({
 	this._isEditing = true;
 	this._initEditWidgets();
 	this._stack.set_visible_child_name('editor');
+    },
+
+    _uploadOSMObjectCB: function(data) {
+
     },
 
     _showError: function(status) {
