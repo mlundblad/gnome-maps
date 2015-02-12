@@ -33,6 +33,11 @@ const OSMObject = new Lang.Class({
 	    this._id = params.id;
 	else
 	    this._id = undefined;
+
+	if (params.version)
+	    this._version = params.version;
+	else
+	    this._version = 1;
 	
 	if (params.tags)
 	    this._tags = params.tags;
@@ -46,6 +51,10 @@ const OSMObject = new Lang.Class({
 
     set id(val) {
 	this._id = val;
+    },
+
+    get version() {
+	return this._version;
     },
 
     get changeset() {
@@ -65,5 +74,23 @@ const OSMObject = new Lang.Class({
     },
 
     //Abstract
-    toXML: function() { }
+    toXML: function() { },
+
+    _serializeAttributes: function() {
+	return 'id="' + this._id + ' changeset="' + this._changeset +
+	    ' version="' + this._version + '"';
+    },
+
+    _serializeTagsToList: function() {
+	let list = [];
+
+	for (var v in this._tags) {
+	    list.push('<tag k="' + GLib.markup_escape(v) +
+		      '" v="' + GLib.markup_escape(this._tags[v]) +
+		      '"/>');
+	}
+
+	return list;
+    }
+		      
 });
