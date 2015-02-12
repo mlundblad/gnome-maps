@@ -31,7 +31,7 @@ const OSMChangeset = new Lang.Class({
 	this.parent({});
 
 	// add default tags
-	this.setTag('created_by', 'gnome-maps'); // TODO: add real version number
+	this.setTag('created_by', 'gnome-maps ' + pkg.version);
 	this.setTag('comment', comment);
 	this.setTag('source', source);
 	
