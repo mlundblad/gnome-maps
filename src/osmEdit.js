@@ -74,5 +74,9 @@ const OSMEditManager = new Lang.Class({
 	}
 
 	return osmType;
+    },
+
+    uploadObject: function(place, comment, source, callback) {
+	this._osmConnection.openChangeset(comment, source, callback);
     }
 });

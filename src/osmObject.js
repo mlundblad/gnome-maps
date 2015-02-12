@@ -22,6 +22,8 @@
 
 const Lang = imports.lang;
 
+const GLib = imports.gi.GLib;
+
 const OSMObject = new Lang.Class({
     Name: 'OSMObject',
     Abstract: true,
@@ -85,12 +87,11 @@ const OSMObject = new Lang.Class({
 	let list = [];
 
 	for (var v in this._tags) {
-	    list.push('<tag k="' + GLib.markup_escape(v) +
-		      '" v="' + GLib.markup_escape(this._tags[v]) +
+	    list.push('<tag k="' + GLib.markup_escape_text(v, -1) +
+		      '" v="' + GLib.markup_escape_text(this.getTag(v), -1) +
 		      '"/>');
 	}
 
 	return list;
-    }
-		      
+    } 
 });

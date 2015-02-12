@@ -27,13 +27,30 @@ const OSMChangeset = new Lang.Class({
     Name: 'OSMChangeset',
     Extends: OSMObject.OSMObject,
 
-    _init: function(comment) {
-	// add default tags
-	this.setTag('created_by', 'gnome-maps')); // TODO: add real version number
-	this.setTag('comment', comment));
+    _init: function(comment, source) {
+	this.parent({});
 
+	// add default tags
+	this.setTag('created_by', 'gnome-maps'); // TODO: add real version number
+	this.setTag('comment', comment);
+	this.setTag('source', source);
+	
 	// undefined changeset ID until the changeset has been opened
 	this._id = undefined;
     },
 
+    toXML: function() {
+	let tags = this._serializeTagsToList();
+	let result = '<osm>\n' +
+	    '\t<changeset>\n';
+
+	for (var i = 0; i < tags.length; i++) {
+	    result += '\t\t' + tags[i] + '\n';
+	}
+
+	result += '\t</changeset>\n' +
+	    '</osm>';
+
+	return result;
+    } 
 })

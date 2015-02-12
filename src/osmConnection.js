@@ -20,6 +20,7 @@
  * Author: Marcus Lundblad <ml@update.uu.se>
  */
 
+const OSMChangeset = imports.osmChangeset;
 const OSMNode = imports.osmNode;
 const OSMRelation = imports.osmRelation;
 const OSMWay = imports.osmWay;
@@ -114,6 +115,13 @@ const OSMConnection = new Lang.Class({
 	default:
 	    return null;
 	}
-    }
+    },
+
+    openChangeset: function(comment, source, callback) {
+	let changeset = new OSMChangeset.OSMChangeset(comment, source);
+	let xml = changeset.toXML();
+
+	print('about open changeset:\n' + xml + '\n');
+    }	
 })
 
