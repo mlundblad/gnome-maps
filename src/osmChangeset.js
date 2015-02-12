@@ -36,15 +36,4 @@ const OSMChangeset = new Lang.Class({
 	this._id = undefined;
     },
 
-    open: function(callback) {
-	// TODO: call the OSM REST API to open the changeset, parse response,
-	// call callback, etc.
-
-    },
-
-    close: function(callback) {
-	// TODO: call the OSM REST API to close the changeset, parse response,
-	// call callback, etc.
-
-    }
 })
