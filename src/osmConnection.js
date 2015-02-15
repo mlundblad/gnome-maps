@@ -31,7 +31,7 @@ const Maps = imports.gi.GnomeMaps;
 const Soup = imports.gi.Soup;
 
 const BASE_URL = 'https://api.openstreetmap.org/api';
-const TEST_BASE_URL = 'https://api06.dev.openstreetmap.org/';
+const TEST_BASE_URL = 'http://api06.dev.openstreetmap.org/api';
 const API_VERSION = '0.6';
 
 const OSMConnection = new Lang.Class({
@@ -39,6 +39,15 @@ const OSMConnection = new Lang.Class({
 
     _init: function(params) {
 	this._session = new Soup.Session();
+
+	// TODO: stopgap to supply username/password
+	// to use with HTTP basic auth, should be
+	// replaced with OATH and real settings or GOA account
+	this._username = GLib.getenv('OSM_USERNAME');
+	this._password = GLib.getenv('OSM_PASSWORD');
+
+	this._session.connect('authenticate', this._authenticate.bind(this));
+	
 	Maps.osm_init();
     },
 
@@ -122,6 +131,33 @@ const OSMConnection = new Lang.Class({
 	let xml = changeset.toXML();
 
 	print('about open changeset:\n' + xml + '\n');
-    }	
+
+	let url = this._getOpenChangesetUrl();
+	let uri = new Soup.URI(url);
+	let msg = new Soup.Message({ method: 'PUT',
+					 uri: uri });
+	msg.set_request('text/xml', Soup.MemoryUse.COPY, xml, xml.length);
+	
+	this._session.queue_message(msg, (function(obj, message) {
+	    print('got response: ' + message.status_code);
+	    if (message.status_code !== Soup.KnownStatusCode.OK) {
+                callback(false, message.status_code, null);
+                return;
+            }
+
+            print ('data received: ' + message.response_body.data);
+
+        }).bind(this));
+    },
+
+    _getOpenChangesetUrl: function() {
+	return TEST_BASE_URL + '/' + API_VERSION + '/changeset/create';
+    },
+
+    _authenticate: function(session, msg, auth, retrying, user_data) {
+	print('authenticating session');
+	
+	auth.authenticate(this._username, this._password);
+    }
 })
 
