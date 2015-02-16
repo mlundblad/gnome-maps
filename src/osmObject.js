@@ -63,6 +63,10 @@ const OSMObject = new Lang.Class({
 	return this._changeset;
     },
 
+    set changeset(changeset) {
+	this._changeset = changeset;
+    },
+
     setTag: function(key, value) {
 	this._tags[key] = value;
     },    

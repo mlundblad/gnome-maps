@@ -24,6 +24,8 @@ const Lang = imports.lang;
 const OSMObject = imports.osmObject;
 const OSMConnection = imports.osmConnection;
 
+const GLib = imports.gi.GLib;
+
 const OSMNode = new Lang.Class({
     Name: 'OSMNode',
     Extends: OSMObject.OSMObject,
@@ -40,6 +42,22 @@ const OSMNode = new Lang.Class({
 
     get lon() {
 	return this._lon;
+    },
+
+    toXML: function() {
+	let tags = this._serializeTagsToList();
+	let attrs = this._serializeAttributes();
+	let result = '<osm>\n' +
+	    '\t<node ' + attrs + ' lat="' + this._lat + '" lon="' + this._lon + '">\n';
+
+	for (var i = 0; i < tags.length; i++) {
+	    result += '\t\t' + tags[i] + '\n';
+	}
+
+	result += '\t</node>\n' +
+	    '</osm>';
+
+	return result;
     },
 
     toString: function() {

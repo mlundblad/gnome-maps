@@ -35,5 +35,25 @@ const OSMWay = new Lang.Class({
 
     get nodeRefs() {
 	return this._nodeRefs;
+    },
+
+    toXML: function() {
+	let tags = this._serializeTagsToList();
+	let attrs = this._serializeAttributes();
+	let result = '<osm>\n' +
+	    '\t<way ' + attrs + '">\n';
+
+	for (var i = 0; i < this._nodeRefs.length; i++) {
+	    result += '\t\t<nd ref="' + this._nodeRefs[i] + '"/>\n';
+	}
+
+	for (var i = 0; i < tags.length; i++) {
+	    result += '\t\t' + tags[i] + '\n';
+	}
+
+	result += '\t</node>\n' +
+	    '</osm>';
+
+	return result;
     }
 })

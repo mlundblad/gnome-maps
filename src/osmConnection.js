@@ -146,8 +146,17 @@ const OSMConnection = new Lang.Class({
             }
 
             print ('data received: ' + message.response_body.data);
+	    callback(true, message.status_code, message.response_body.data);
+	    
+        }));
+    },
 
-        }).bind(this));
+    uploadObject: function(object, changeset, callback) {
+	object.changeset = changeset;
+
+	let xml = object.toXML();
+
+	print('about to upload object:\n' + xml + '\n');
     },
 
     _getOpenChangesetUrl: function() {
