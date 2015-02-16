@@ -76,7 +76,7 @@ const OSMEditDialog = new Lang.Class({
 	    this._isEditing = false;
 	} else {
 	    // upload data to OSM
-	    Application.osmEditManager.uploadObject(this._place,
+	    Application.osmEditManager.uploadObject(this._osmObject,
 						    this._commentEntry.text,
 						    this._sourceEntry.text,
 						    this._uploadOSMObjectCB);
