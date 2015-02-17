@@ -35,6 +35,28 @@ const OSMRelation = new Lang.Class({
 
     get members() {
 	return this._members;
+    },
+
+    toXML: function() {
+	let tags = this._serializeTagsToList();
+	let attrs = this._serializeAttributes();
+	let result = '<osm>\n' +
+	    '\t<relation ' + attrs + '">\n';
+
+	for (var i = 0; i < this._members.length; i++) {
+	    let member = this._members[i];
+	    result += '\t\t<member type="' + member.type
+		+ '" role="' + member.role + '" ref="' + member.ref
+	        + '"/>\n';
+	}
+	
+	for (var i = 0; i < tags.length; i++) {
+	    result += '\t\t' + tags[i] + '\n';
+	}
+
+	result += '\t</relation>\n' +
+	    '</osm>';
+
+	return result;
     }
-    
 });
