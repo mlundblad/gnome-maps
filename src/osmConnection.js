@@ -99,7 +99,7 @@ const OSMConnection = new Lang.Class({
 	    jsonString = Maps.osm_parse_way(body.data, body.length);
             break;
         case 'relation':
-            jsonString = Maps.osm_parse_relation(body.data, body.lenght);
+            jsonString = Maps.osm_parse_relation(body.data, body.length);
 	    break;
         default:
             GLib.error('unknown OSM type: ' + type);
@@ -107,7 +107,7 @@ const OSMConnection = new Lang.Class({
 
 	print ('parsed XML to JSON: ' + jsonString);
 	
-        if (jsonString)
+        if (jsonString !== null)
 	    return JSON.parse(jsonString);
         else
             return NULL;
