@@ -22,7 +22,6 @@
 
 const Lang = imports.lang;
 const OSMObject = imports.osmObject;
-const OSMConnection = imports.osmConnection;
 
 const GLib = imports.gi.GLib;
 
