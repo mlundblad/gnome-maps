@@ -43,6 +43,10 @@ const OSMNode = new Lang.Class({
 	return this._lon;
     },
 
+    get type() {
+	return 'node';
+    },
+
     toXML: function() {
 	let tags = this._serializeTagsToList();
 	let attrs = this._serializeAttributes();

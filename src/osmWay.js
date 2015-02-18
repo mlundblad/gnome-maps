@@ -37,6 +37,10 @@ const OSMWay = new Lang.Class({
 	return this._nodeRefs;
     },
 
+    get type() {
+	return 'way';
+    },
+
     toXML: function() {
 	let tags = this._serializeTagsToList();
 	let attrs = this._serializeAttributes();

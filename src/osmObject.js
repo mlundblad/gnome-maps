@@ -79,6 +79,9 @@ const OSMObject = new Lang.Class({
 	delete this._tags[key];
     },
 
+    // Abstract
+    get type() { },
+    
     //Abstract
     toXML: function() { },
 

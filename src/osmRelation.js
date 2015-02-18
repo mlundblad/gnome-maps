@@ -37,6 +37,10 @@ const OSMRelation = new Lang.Class({
 	return this._members;
     },
 
+    get type() {
+	return 'relation';
+    },
+
     toXML: function() {
 	let tags = this._serializeTagsToList();
 	let attrs = this._serializeAttributes();

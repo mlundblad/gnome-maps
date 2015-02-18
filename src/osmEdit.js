@@ -79,21 +79,39 @@ const OSMEditManager = new Lang.Class({
     uploadObject: function(object, comment, source, callback) {
 	this._osmConnection.openChangeset(comment, source,
 					  function(success, status,
-						   changeset) {
+						   changesetId) {
 					      print('open changeset CB:');
 					      print('success: ' + success);
 					      print('status: ' + status);
-					      print('changeset: ' + changeset);
+					      print('changeset: ' + changesetId);
 					      if (success)
 						  this._uploadObject(object,
-								     changeset,
+								     changesetId,
 							             callback);
 					      else
-						  callback(false, status, null);
+						  callback(false, status);
 					  }.bind(this));
     },
 
-    _uploadObject: function(object, changeset, callback) {
-	this._osmConnection.uploadObject(object, changeset, callback);
+    _uploadObject: function(object, changesetId, callback) {
+	this._osmConnection.uploadObject(object, changesetId,
+					 function(success, status,
+						  response) {
+					     print('upload object CB:');
+					     print('success: ' + success);
+					     print('status: ' + status);
+					     print('response: ' + response);
+					     if (success)
+						 // TODO: set ID (if new object)
+						 // or version, from response
+						 this._closeChangeset(changesetId,
+								      callback);
+					     else
+						 callback(false, status);
+					 }.bind(this));
+    },
+
+    _closeChangeset: function(changesetId, callback) {
+	this._osmConnection.closeChangeset(changesetId, callback);
     }
 });

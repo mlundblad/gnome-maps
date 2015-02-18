@@ -57,6 +57,8 @@ const OSMConnection = new Lang.Class({
 	let request = new Soup.Message({ method: 'GET',
 					 uri: uri });
 
+	print('fetching object using URL: ' + url);
+	
 	cancellable.connect((function() {
 	    this._session.cancel_message(request, Soup.STATUS_CANCELLED);
 	}).bind(this));
@@ -157,10 +159,61 @@ const OSMConnection = new Lang.Class({
 	let xml = object.toXML();
 
 	print('about to upload object:\n' + xml + '\n');
+	let url = this._getCreateOrUpdateUrl(object);
+	let uri = new Soup.URI(url);
+	let msg = new Soup.Message({ method: 'PUT',
+				     uri: uri });
+	msg.set_request('text/xml', Soup.MemoryUse.COPY, xml, xml.length);
+
+	print('uploading to URL: ' + url);
+	
+	this._session.queue_message(msg, (function(obj, message) {
+	    print('got response: ' + message.status_code);
+	    if (message.status_code !== Soup.KnownStatusCode.OK) {
+                callback(false, message.status_code, null);
+                return;
+            }
+
+            print ('data received: ' + message.response_body.data);
+	    callback(true, message.status_code, message.response_body.data);
+        }));
+	
+    },
+
+    closeChangeset: function(changesetId, callback) {
+	let url = this._getCloseChangesetUrl(changesetId);
+	let uri = new Soup.URI(url);
+	let msg = new Soup.Message({ method: 'PUT',
+				     uri: uri });
+
+	print('closing changeset with URL: ' + url);
+
+	this._session.queue_message(msg, (function(obj, message) {
+	    print('got response: ' + message.status_code);
+	    if (message.status_code !== Soup.KnownStatusCode.OK) {
+                callback(false, message.status_code);
+                return;
+            }
+
+            print ('data received: ' + message.response_body.data);
+	    callback(true, message.status_code);
+        }));
     },
 
     _getOpenChangesetUrl: function() {
 	return TEST_BASE_URL + '/' + API_VERSION + '/changeset/create';
+    },
+
+    _getCloseChangesetUrl: function(changesetId) {
+	return TEST_BASE_URL + '/' + API_VERSION + '/changeset/' +
+	    changesetId + '/close';
+    },
+ 
+    _getCreateOrUpdateUrl: function(object) {
+	if (object.id)
+	    return TEST_BASE_URL + '/' + API_VERSION + '/' + object.type + '/' + object.id;
+	else
+	    return TEST_BASE_URL + '/' + API_VERSION + '/' + object.type + '/create';
     },
 
     _authenticate: function(session, msg, auth, retrying, user_data) {
