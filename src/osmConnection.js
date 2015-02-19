@@ -34,6 +34,9 @@ const BASE_URL = 'https://api.openstreetmap.org/api';
 const TEST_BASE_URL = 'http://api06.dev.openstreetmap.org/api';
 const API_VERSION = '0.6';
 
+// TODO: make this configurable
+const USE_TEST_API = true;
+
 const OSMConnection = new Lang.Class({
     Name: 'OSMConnection',
 
@@ -71,6 +74,10 @@ const OSMConnection = new Lang.Class({
 
             print ('data received: ' + message.response_body.data);
 
+	    // override object type to use the mock object if using the test API
+	    if (USE_TEST_API)
+		type = GLib.getenv('OSM_MOCK_TYPE');
+	    
 	    let json = this._parseXML(type, message.response_body);
 	    let object = null;
 
@@ -87,7 +94,19 @@ const OSMConnection = new Lang.Class({
     },
     
     _getQueryUrl: function(type, id) {
-	return BASE_URL + '/' + API_VERSION + '/' + type + '/' + id;
+	if (USE_TEST_API) {
+	    // override object type and ID from a mock object
+	    // since the object we get from Nominatim and Overpass
+	    // doesn't exist in the test OSM environment
+	    type = GLib.getenv('OSM_MOCK_TYPE');
+	    id = GLib.getenv('OSM_MOCK_ID');
+	}
+	
+	return this._getBaseUrl() + '/' + API_VERSION + '/' + type + '/' + id;
+    },
+
+    _getBaseUrl: function() {
+	return USE_TEST_API ? TEST_BASE_URL : BASE_URL;
     },
 
     _parseXML: function(type, body) {
@@ -112,7 +131,7 @@ const OSMConnection = new Lang.Class({
         if (jsonString !== null)
 	    return JSON.parse(jsonString);
         else
-            return NULL;
+            return null;
     },
 
     _createObject: function(type, json) {
@@ -169,12 +188,13 @@ const OSMConnection = new Lang.Class({
 	
 	this._session.queue_message(msg, (function(obj, message) {
 	    print('got response: ' + message.status_code);
+            print ('data received: ' + message.response_body.data);
+	    
 	    if (message.status_code !== Soup.KnownStatusCode.OK) {
                 callback(false, message.status_code, null);
                 return;
             }
 
-            print ('data received: ' + message.response_body.data);
 	    callback(true, message.status_code, message.response_body.data);
         }));
 	
@@ -201,19 +221,19 @@ const OSMConnection = new Lang.Class({
     },
 
     _getOpenChangesetUrl: function() {
-	return TEST_BASE_URL + '/' + API_VERSION + '/changeset/create';
+	return this._getBaseUrl() + '/' + API_VERSION + '/changeset/create';
     },
 
     _getCloseChangesetUrl: function(changesetId) {
-	return TEST_BASE_URL + '/' + API_VERSION + '/changeset/' +
+	return this._getBaseUrl() + '/' + API_VERSION + '/changeset/' +
 	    changesetId + '/close';
     },
  
     _getCreateOrUpdateUrl: function(object) {
 	if (object.id)
-	    return TEST_BASE_URL + '/' + API_VERSION + '/' + object.type + '/' + object.id;
+	    return this._getBaseUrl() + '/' + API_VERSION + '/' + object.type + '/' + object.id;
 	else
-	    return TEST_BASE_URL + '/' + API_VERSION + '/' + object.type + '/create';
+	    return this._getBaseUrl() + '/' + API_VERSION + '/' + object.type + '/create';
     },
 
     _authenticate: function(session, msg, auth, retrying, user_data) {

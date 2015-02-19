@@ -86,8 +86,8 @@ const OSMObject = new Lang.Class({
     toXML: function() { },
 
     _serializeAttributes: function() {
-	return 'id="' + this._id + ' changeset="' + this._changeset +
-	    ' version="' + this._version + '"';
+	return 'id="' + this._id + '" changeset="' + this._changeset +
+	    '" version="' + this._version + '"';
     },
 
     _serializeTagsToList: function() {
