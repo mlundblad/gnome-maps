@@ -98,8 +98,9 @@ const OSMEditDialog = new Lang.Class({
 	this._stack.set_visible_child_name('editor');
     },
 
-    _uploadOSMObjectCB: function(data) {
-
+    _uploadOSMObjectCB: function(success, status) {
+	// TODO: show error dialog (might need more info from the connection layer)
+	// TODO: close the dialog on sucess
     },
 
     _showError: function(status) {
