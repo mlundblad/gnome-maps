@@ -34,9 +34,6 @@ const BASE_URL = 'https://api.openstreetmap.org/api';
 const TEST_BASE_URL = 'http://api06.dev.openstreetmap.org/api';
 const API_VERSION = '0.6';
 
-// TODO: make this configurable
-const USE_TEST_API = true;
-
 const OSMConnection = new Lang.Class({
     Name: 'OSMConnection',
 
@@ -48,6 +45,15 @@ const OSMConnection = new Lang.Class({
 	// replaced with OATH and real settings or GOA account
 	this._username = GLib.getenv('OSM_USERNAME');
 	this._password = GLib.getenv('OSM_PASSWORD');
+
+	let useLiveApi = GLib.getenv('OSM_USE_LIVE_API');
+
+	// for now use the test API unless explicitly
+	// set to use the live one
+	if (useLiveApi == 'yes')
+	    this._useTestApi = false;
+	else
+	    this._useTestApi = true;
 
 	this._session.connect('authenticate', this._authenticate.bind(this));
 	
@@ -75,7 +81,7 @@ const OSMConnection = new Lang.Class({
             print ('data received: ' + message.response_body.data);
 
 	    // override object type to use the mock object if using the test API
-	    if (USE_TEST_API)
+	    if (this._useTestApi)
 		type = GLib.getenv('OSM_MOCK_TYPE');
 	    
 	    let json = this._parseXML(type, message.response_body);
@@ -94,7 +100,7 @@ const OSMConnection = new Lang.Class({
     },
     
     _getQueryUrl: function(type, id) {
-	if (USE_TEST_API) {
+	if (this._useTestApi) {
 	    // override object type and ID from a mock object
 	    // since the object we get from Nominatim and Overpass
 	    // doesn't exist in the test OSM environment
@@ -106,7 +112,7 @@ const OSMConnection = new Lang.Class({
     },
 
     _getBaseUrl: function() {
-	return USE_TEST_API ? TEST_BASE_URL : BASE_URL;
+	return this._useTestApi ? TEST_BASE_URL : BASE_URL;
     },
 
     _parseXML: function(type, body) {
@@ -231,9 +237,11 @@ const OSMConnection = new Lang.Class({
  
     _getCreateOrUpdateUrl: function(object) {
 	if (object.id)
-	    return this._getBaseUrl() + '/' + API_VERSION + '/' + object.type + '/' + object.id;
+	    return this._getBaseUrl() + '/' + API_VERSION + '/' + object.type +
+	           '/' + object.id;
 	else
-	    return this._getBaseUrl() + '/' + API_VERSION + '/' + object.type + '/create';
+	    return this._getBaseUrl() + '/' + API_VERSION + '/' + object.type +
+	           '/create';
     },
 
     _authenticate: function(session, msg, auth, retrying, user_data) {
