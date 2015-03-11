@@ -70,7 +70,9 @@ const MapBubble = new Lang.Class({
         params.modal = false;
 
         this.parent(params);
-        let ui = Utils.getUIObject('map-bubble', [ 'bubble-main-grid',
+        let ui = Utils.getUIObject('map-bubble', [ 'stack',
+						   'bubble-main-grid',
+						   'bubble-edit-grid',
                                                    'bubble-image',
                                                    'bubble-content-area',
                                                    'bubble-button-area',
@@ -79,6 +81,9 @@ const MapBubble = new Lang.Class({
                                                    'bubble-favorite-button',
                                                    'bubble-check-in-button',
 						   'bubble-edit-button']);
+	this._viewOrEditStack = ui.stack;
+	this._mainGrid = ui.bubbleMainGrid;
+	this._editGrid = ui.bubbleEditGrid;
         this._image = ui.bubbleImage;
         this._content = ui.bubbleContentArea;
 
@@ -97,7 +102,12 @@ const MapBubble = new Lang.Class({
 		this._initEditButton(ui.bubbleEditButton);
         }
 
-        this.add(ui.bubbleMainGrid);
+        this.add(ui.stack);
+
+	this._cancellable = new Gio.Cancellable();
+        this.connect('delete-event', (function() {
+            this._cancellable.cancel();
+        }).bind(this));
     },
 
     get image() {
@@ -179,12 +189,30 @@ const MapBubble = new Lang.Class({
     },
 
     _initEditButton: function(button) {
-	button.connect('clicked', (function() {
-	    print ('about to edit place: type: ' + this._place.osm_type + ' id: ' +
-		   this._place.osm_id);
+	button.connect('clicked', this._onEditClicked.bind(this));
+    },
 
-	    Application.osmEditManager.showEditDialog(this.get_toplevel(),
-						      this.place);
-	}).bind(this));
+    _onEditClicked: function() {
+	print ('about to edit place: type: ' + this._place.osm_type + ' id: ' +
+	       this._place.osm_id);
+	this._viewOrEditStack.visible_child_name = 'edit';
+	Application.osmEditManager.fetchObject(this._place,
+					       this._onObjectFetched.bind(this),
+					       this._cancellable);
+    },
+
+    _onObjectFetched: function(success, status, data) {
+	if (success)
+	    this._loadOSMData(data);
+	else
+	    this._showError(status);
+    },
+
+    _loadOSMData: function(data) {
+
+    },
+
+    _showError: function(status) {
+
     }
 });

@@ -2,134 +2,211 @@
 <!-- Generated with glade 3.18.3 -->
 <interface>
   <requires lib="gtk+" version="3.12"/>
-  <object class="GtkGrid" id="bubble-main-grid">
+  <object class="GtkStack" id="stack">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="margin_start">10</property>
-    <property name="margin_end">10</property>
-    <property name="margin_top">10</property>
-    <property name="margin_bottom">10</property>
-    <property name="orientation">vertical</property>
     <child>
-      <object class="GtkImage" id="bubble-image">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="valign">start</property>
-        <property name="pixel_size">0</property>
-        <property name="icon_size">16</property>
-      </object>
-      <packing>
-        <property name="left_attach">0</property>
-        <property name="top_attach">0</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkGrid" id="bubble-content-area">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="margin-start">15</property>
-      </object>
-      <packing>
-        <property name="left_attach">1</property>
-        <property name="top_attach">0</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkGrid" id="bubble-button-area">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="margin-top">10</property>
-        <property name="margin-start">15</property>
-        <child>
-          <object class="GtkBox" id="bubble-standard-button-area">
+      <object class="GtkGrid" id="bubble-main-grid">
+	<property name="visible">True</property>
+	<property name="can_focus">False</property>
+	<property name="margin_start">10</property>
+	<property name="margin_end">10</property>
+	<property name="margin_top">10</property>
+	<property name="margin_bottom">10</property>
+	<property name="orientation">vertical</property>
+	<child>
+	  <object class="GtkImage" id="bubble-image">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="orientation">horizontal</property>
-            <property name="spacing">5</property>
-            <child>
-              <object class="GtkButton" id="bubble-route-button">
-                <property name="name">bubble-route-button</property>
-                <property name="visible">False</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">False</property>
-                <property name="tooltip-text" translatable="yes">Add to new route</property>
-                <child>
-                  <object class="GtkImage" id="bubble-route-button-image">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="icon-name">route-button-symbolic</property>
-                    <property name="icon_size">1</property>
-                  </object>
-                </child>
-              </object>
-            </child>
-            <child>
-              <object class="GtkButton" id="bubble-send-to-button">
-                <property name="name">bubble-send-to-button</property>
-                <property name="visible">False</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">False</property>
-                <property name="tooltip-text" translatable="yes">Open with another application</property>
-                <child>
-                  <object class="GtkImage" id="bubble-send-to-button-image">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="icon-name">send-to-symbolic</property>
-                    <property name="pixel_size">16</property>
-                  </object>
-                </child>
-              </object>
-            </child>
-            <child>
-              <object class="GtkToggleButton" id="bubble-favorite-button">
-                <property name="name">bubble-favorite-button</property>
-                <property name="visible">False</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">False</property>
-                <property name="tooltip-text" translatable="yes">Mark as favorite</property>
-                <child>
-                  <object class="GtkImage" id="bubble-favorite-button-image">
-                    <property name="name">bubble-favorite-button-image</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="icon-name">emblem-favorite-symbolic</property>
-                    <property name="pixel_size">16</property>
-                  </object>
-                </child>
-              </object>
-            </child>
-            <child>
-              <object class="GtkButton" id="bubble-check-in-button">
-                <property name="label" translatable="yes" comments="Translators: Check in is used as a verb">C_heck in</property>
-                <property name="visible">False</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">False</property>
-                <property name="use_underline">True</property>
-                <property name="tooltip-text" translatable="yes">Check in here</property>
-              </object>
-            </child>
-	    <child>
-	      <object class="GtkButton" id="bubble-edit-button">
-		<property name="name">bubble-edit-button"</property>
-		<property name="label" translatable="yes">Edit</property>
-		<!-- TODO: this button should be invisible by default
-		     when we handle OSM accounts -->
-		<property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">False</property>
-	      </object>
-	    </child>
-          </object>
-          <packing>
+            <property name="valign">start</property>
+            <property name="pixel_size">0</property>
+            <property name="icon_size">16</property>
+	  </object>
+	  <packing>
             <property name="left_attach">0</property>
             <property name="top_attach">0</property>
-          </packing>
-        </child>
+	  </packing>
+	</child>
+	<child>
+	  <object class="GtkGrid" id="bubble-content-area">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="margin-start">15</property>
+	  </object>
+	  <packing>
+            <property name="left_attach">1</property>
+            <property name="top_attach">0</property>
+	  </packing>
+	</child>
+	<child>
+	  <object class="GtkGrid" id="bubble-button-area">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="margin-top">10</property>
+            <property name="margin-start">15</property>
+            <child>
+              <object class="GtkBox" id="bubble-standard-button-area">
+		<property name="visible">True</property>
+		<property name="can_focus">False</property>
+		<property name="orientation">horizontal</property>
+		<property name="spacing">5</property>
+		<child>
+		  <object class="GtkButton" id="bubble-route-button">
+                    <property name="name">bubble-route-button</property>
+                    <property name="visible">False</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">False</property>
+                    <property name="tooltip-text" translatable="yes">Add to new route</property>
+                    <child>
+                      <object class="GtkImage" id="bubble-route-button-image">
+			<property name="visible">True</property>
+			<property name="can_focus">False</property>
+			<property name="icon-name">route-button-symbolic</property>
+			<property name="icon_size">1</property>
+                      </object>
+                    </child>
+		  </object>
+		</child>
+		<child>
+		  <object class="GtkButton" id="bubble-send-to-button">
+                    <property name="name">bubble-send-to-button</property>
+                    <property name="visible">False</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">False</property>
+                    <property name="tooltip-text" translatable="yes">Open with another application</property>
+                    <child>
+                      <object class="GtkImage" id="bubble-send-to-button-image">
+			<property name="visible">True</property>
+			<property name="can_focus">False</property>
+			<property name="icon-name">send-to-symbolic</property>
+			<property name="pixel_size">16</property>
+                      </object>
+                    </child>
+		  </object>
+		</child>
+		<child>
+		  <object class="GtkToggleButton" id="bubble-favorite-button">
+                    <property name="name">bubble-favorite-button</property>
+                    <property name="visible">False</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">False</property>
+                    <property name="tooltip-text" translatable="yes">Mark as favorite</property>
+                    <child>
+                      <object class="GtkImage" id="bubble-favorite-button-image">
+			<property name="name">bubble-favorite-button-image</property>
+			<property name="visible">True</property>
+			<property name="can_focus">False</property>
+			<property name="icon-name">emblem-favorite-symbolic</property>
+			<property name="pixel_size">16</property>
+                      </object>
+                    </child>
+		  </object>
+		</child>
+		<child>
+		  <object class="GtkButton" id="bubble-check-in-button">
+                    <property name="label" translatable="yes" comments="Translators: Check in is used as a verb">C_heck in</property>
+                    <property name="visible">False</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">False</property>
+                    <property name="use_underline">True</property>
+                    <property name="tooltip-text" translatable="yes">Check in here</property>
+		  </object>
+		</child>
+		<child>
+		  <object class="GtkButton" id="bubble-edit-button">
+		    <property name="name">bubble-edit-button"</property>
+		    <property name="label" translatable="yes">Edit</property>
+		    <!-- TODO: this button should be invisible by default
+			 when we handle OSM accounts -->
+		    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">False</property>
+		  </object>
+		</child>
+              </object>
+              <packing>
+		<property name="left_attach">0</property>
+		<property name="top_attach">0</property>
+              </packing>
+            </child>
+	  </object>
+	  <packing>
+            <property name="left_attach">1</property>
+            <property name="top_attach">1</property>
+	  </packing>
+	</child>
       </object>
       <packing>
-        <property name="left_attach">1</property>
-        <property name="top_attach">1</property>
+        <property name="name">view</property>
       </packing>
+
+    </child>
+    <child>
+      <object class="GtkGrid" id="bubble-edit-grid">
+	<property name="visible">True</property>
+	<property name="can_focus">False</property>
+	<property name="margin_start">10</property>
+	<property name="margin_end">10</property>
+	<property name="margin_top">10</property>
+	<property name="margin_bottom">10</property>
+	<property name="orientation">vertical</property>
+
+	<child>
+	  <object class="GtkGrid" id="bubble-edit-content-area">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="margin-start">15</property>
+	    <child>
+	      <object class="GtkLabel" id="edit-name-label">
+		<property name="visible">True</property>
+		<property name="can_focus">False</property>
+		<property name="label" translatable="yes">Name</property>
+	      </object>
+	      <packing>
+		<property name="left_attach">0</property>
+		<property name="top_attach">0</property>
+	      </packing>
+	    </child>
+
+	    <child>
+	      <object class="GtkEntry" id="edit-name-entry">
+		<property name="visible">True</property>
+		<property name="can_focus">False</property>
+	      </object>
+	      <packing>
+		<property name="left_attach">1</property>
+		<property name="top_attach">0</property>
+	      </packing>
+	    </child>
+
+	  </object>
+	  <packing>
+            <property name="left_attach">0</property>
+            <property name="top_attach">0</property>
+	  </packing>
+	</child>
+
+	<child>
+	  <object class="GtkGrid" id="bubble-edit-button-area">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="margin-top">10</property>
+            <property name="margin-start">15</property>
+            <child>
+	      
+	    </child>
+	  </object>
+	  <packing>
+            <property name="left_attach">0</property>
+            <property name="top_attach">1</property>
+	  </packing>
+ 	</child>
+      </object>
+      <packing>
+        <property name="name">edit</property>
+      </packing>
+
     </child>
   </object>
+
 </interface>
