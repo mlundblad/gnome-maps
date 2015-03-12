@@ -80,12 +80,14 @@ const MapBubble = new Lang.Class({
                                                    'bubble-send-to-button',
                                                    'bubble-favorite-button',
                                                    'bubble-check-in-button',
-						   'bubble-edit-button']);
+						   'bubble-edit-button',
+						   'bubble-edit-name-entry']);
 	this._viewOrEditStack = ui.stack;
 	this._mainGrid = ui.bubbleMainGrid;
 	this._editGrid = ui.bubbleEditGrid;
         this._image = ui.bubbleImage;
         this._content = ui.bubbleContentArea;
+	this._nameEntry = ui.bubbleEditNameEntry;
 
         if (!buttonFlags)
             ui.bubbleButtonArea.visible = false;
@@ -209,7 +211,8 @@ const MapBubble = new Lang.Class({
     },
 
     _loadOSMData: function(data) {
-
+	this._osmObject = data;
+	this._nameEntry.text = this._osmObject.getTag('name');
     },
 
     _showError: function(status) {

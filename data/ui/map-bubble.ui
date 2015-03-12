@@ -169,7 +169,7 @@
 	    </child>
 
 	    <child>
-	      <object class="GtkEntry" id="edit-name-entry">
+	      <object class="GtkEntry" id="bubble-edit-name-entry">
 		<property name="visible">True</property>
 		<property name="can_focus">False</property>
 	      </object>
