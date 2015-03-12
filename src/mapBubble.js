@@ -197,6 +197,7 @@ const MapBubble = new Lang.Class({
     _onEditClicked: function() {
 	print ('about to edit place: type: ' + this._place.osm_type + ' id: ' +
 	       this._place.osm_id);
+	this._editGrid.sensitive = false;
 	this._viewOrEditStack.visible_child_name = 'edit';
 	Application.osmEditManager.fetchObject(this._place,
 					       this._onObjectFetched.bind(this),
@@ -204,9 +205,10 @@ const MapBubble = new Lang.Class({
     },
 
     _onObjectFetched: function(success, status, data) {
-	if (success)
+	if (success) {
+	    this._editGrid.sensitive = true;
 	    this._loadOSMData(data);
-	else
+	} else
 	    this._showError(status);
     },
 
