@@ -81,13 +81,15 @@ const MapBubble = new Lang.Class({
                                                    'bubble-favorite-button',
                                                    'bubble-check-in-button',
 						   'bubble-edit-button',
-						   'bubble-edit-name-entry']);
+						   'bubble-edit-name-entry',
+						   'bubble-save-button']);
 	this._viewOrEditStack = ui.stack;
 	this._mainGrid = ui.bubbleMainGrid;
 	this._editGrid = ui.bubbleEditGrid;
         this._image = ui.bubbleImage;
         this._content = ui.bubbleContentArea;
 	this._nameEntry = ui.bubbleEditNameEntry;
+	this._saveButton = ui.bubbleSaveButton;
 
         if (!buttonFlags)
             ui.bubbleButtonArea.visible = false;
@@ -100,9 +102,11 @@ const MapBubble = new Lang.Class({
                 this._initFavoriteButton(ui.bubbleFavoriteButton);
             if (buttonFlags & Button.CHECK_IN)
                 this._initCheckInButton(ui.bubbleCheckInButton, checkInMatchPlace);
-	    if (buttonFlags & Button.EDIT)
+	    if (buttonFlags & Button.EDIT) {
 		this._initEditButton(ui.bubbleEditButton);
-        }
+		this._initOSMEditor();
+	    }
+	}
 
         this.add(ui.stack);
 
@@ -204,9 +208,20 @@ const MapBubble = new Lang.Class({
 					       this._cancellable);
     },
 
+    _initOSMEditor: function() {
+	this._nameEntry.connect('changed',  (function() {
+	    this._osmObject.setTag('name', this._nameEntry.text);
+	    this._saveButton.sensitive = true;
+	}).bind(this));
+
+	this._saveButton.connect('clicked', this._onSaveClicked.bind(this));
+    },
+	
     _onObjectFetched: function(success, status, data) {
 	if (success) {
 	    this._editGrid.sensitive = true;
+	    // keep the save button insensitive until the user has done a change
+	    this._saveButton.sensitive = false;
 	    this._loadOSMData(data);
 	} else
 	    this._showError(status);
@@ -219,5 +234,17 @@ const MapBubble = new Lang.Class({
 
     _showError: function(status) {
 
+    },
+
+    _onSaveClicked: function() {
+	Application.osmEditManager.uploadObject(this._osmObject,
+						null, // TODO: add comment editing
+						null,
+						this._uploadObjectCB.bind(this));
+    },
+
+    _uploadObjectCB: function(success, status) {
+	// TODO: show error
+	this._viewOrEditStack.visible_child_name = 'view';
     }
 });
