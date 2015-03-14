@@ -32,8 +32,11 @@ const OSMChangeset = new Lang.Class({
 
 	// add default tags
 	this.setTag('created_by', 'gnome-maps ' + pkg.version);
-	this.setTag('comment', comment);
-	this.setTag('source', source);
+
+	if (comment)
+	    this.setTag('comment', comment);
+	if (source)
+	    this.setTag('source', source);
 	
 	// undefined changeset ID until the changeset has been opened
 	this._id = undefined;
