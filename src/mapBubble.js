@@ -82,7 +82,8 @@ const MapBubble = new Lang.Class({
                                                    'bubble-check-in-button',
 						   'bubble-edit-button',
 						   'bubble-edit-name-entry',
-						   'bubble-save-button']);
+						   'bubble-save-button',
+						   'bubble-cancel-button']);
 	this._viewOrEditStack = ui.stack;
 	this._mainGrid = ui.bubbleMainGrid;
 	this._editGrid = ui.bubbleEditGrid;
@@ -90,6 +91,7 @@ const MapBubble = new Lang.Class({
         this._content = ui.bubbleContentArea;
 	this._nameEntry = ui.bubbleEditNameEntry;
 	this._saveButton = ui.bubbleSaveButton;
+	this._cancelButton = ui.bubbleCancelButton;
 
         if (!buttonFlags)
             ui.bubbleButtonArea.visible = false;
@@ -215,6 +217,7 @@ const MapBubble = new Lang.Class({
 	}).bind(this));
 
 	this._saveButton.connect('clicked', this._onSaveClicked.bind(this));
+	this._cancelButton.connect('clicked', this._onCancelClicked.bind(this));
     },
 	
     _onObjectFetched: function(success, status, data) {
@@ -241,6 +244,10 @@ const MapBubble = new Lang.Class({
 						null, // TODO: add comment editing
 						null,
 						this._uploadObjectCB.bind(this));
+    },
+
+    _onCancelClicked: function() {
+	this._viewOrEditStack.visible_child_name = 'view';
     },
 
     _uploadObjectCB: function(success, status) {
