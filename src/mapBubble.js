@@ -220,9 +220,9 @@ const MapBubble = new Lang.Class({
     _onObjectFetched: function(success, status, data) {
 	if (success) {
 	    this._editGrid.sensitive = true;
+	    this._loadOSMData(data);
 	    // keep the save button insensitive until the user has done a change
 	    this._saveButton.sensitive = false;
-	    this._loadOSMData(data);
 	} else
 	    this._showError(status);
     },
