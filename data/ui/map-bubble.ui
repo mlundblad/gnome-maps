@@ -215,6 +215,9 @@
 		    <property name="sensitive">False</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+		    <style>
+		      <class name="suggested-action"/>
+		    </style>
 		  </object>
 		</child>
 	      </object>
