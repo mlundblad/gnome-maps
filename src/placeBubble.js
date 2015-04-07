@@ -44,7 +44,7 @@ const PlaceBubble = new Lang.Class({
         params.buttons = (MapBubble.Button.ROUTE |
                           MapBubble.Button.SHARE |
                           MapBubble.Button.FAVORITE |
-                          MapBubble.Button.SEND_TO |;
+                          MapBubble.Button.SEND_TO |
 			  MapBubble.Button.EDIT);
 
         // We do not serialize contacts to file, so adding them
